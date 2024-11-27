@@ -8,8 +8,8 @@ from typing import Optional
 class HitRecord:
     t: float = 0.0
     point: tuple = (0, 0, 0)
-    normal: tuple = (0, 0, 0)
-    front_face: bool
+    normal: Vec3 = Vec3(0, 0, 0)
+    front_face: bool = None
 
     def set_face_normal(self, r: Ray, outward_normal: Vec3):
         #outward normal has unit length, mutates front_face, normal

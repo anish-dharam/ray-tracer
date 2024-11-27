@@ -2,34 +2,32 @@ from vec3 import Vec3, Point3, Color, dot, unit_vector, write_color
 from ray import Ray
 import sys
 import math
+from hittable import Hittable, HitRecord
+from hittable_list import HittableList
+from sphere import Sphere
 
-def hit_sphere(center: Point3, radius: float, r: Ray):
-    oc = center - r.origin
-    a = r.direction.len_squared()
-    h = dot(r.direction, oc)
-    c = oc.len_squared() - radius*radius
-    discriminant = h*h - a*c
+def ray_color(r: Ray, world: Hittable) -> Color:
+    res = world.hit(r, 0, math.inf)
+    if res:
+        return 0.5 * (res.normal + Color(1, 1, 1))
 
-    if discriminant < 0:
-        return -1
-    return (h - math.sqrt(discriminant)) / a
-
-def ray_color(r) -> Color:
-    t = hit_sphere(Point3(0, 0, -1), 0.5, r)
-    if t > 0:
-        normal = unit_vector(r.at(t) - Vec3(0, 0, -1))
-        return 0.5*Color(normal.x()+1, normal.y()+1, normal.z()+1)
-
-    unit_direction = unit_vector(r.direction)
-    a = 0.5*(unit_direction.y() + 1.0)
+    unit_direction: Vec3 = unit_vector(r.direction)
+    a = 0.5 * (unit_direction.y() + 1.0)
     return (1-a) * Color(1, 1, 1) + a * Color(0.5, 0.7, 1)
 
 def main():
+    #image
     aspect_ratio = 16.0 / 9.0
     WIDTH = 400 
     HEIGHT = int(WIDTH // aspect_ratio)
     if HEIGHT < 1:
         HEIGHT = 1
+
+#world
+    world: HittableList = HittableList([])
+    world.add(Sphere(Point3(0, 0, -1), 0.5))
+    world.add(Sphere(Point3(0, -100.5, -1), 100))
+
 #camera
     focal_length = 1.0
     viewport_height = 2.0
@@ -58,7 +56,7 @@ def main():
             ray_direction: Vec3 = pixel_center - camera_center
             r = Ray(camera_center, ray_direction)
 
-            pixel_color: Color = ray_color(r)
+            pixel_color: Color = ray_color(r, world)
             write_color(pixel_color)
 
     sys.stderr.write("\rDone.                   \n")

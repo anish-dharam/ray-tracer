@@ -2,7 +2,7 @@ from hittable import Hittable, HitRecord
 from ray import Ray
 from typing import Optional
 
-class hittable_list(Hittable):
+class HittableList(Hittable):
     def __init__(self, objects: list[Hittable]=[]):
         self.objects = objects
 
