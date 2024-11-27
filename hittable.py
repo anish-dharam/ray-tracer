@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from ray import Ray
 from vec3 import Vec3, dot
 from typing import Optional
+from interval import Interval
 
 @dataclass
 class HitRecord:
@@ -18,6 +19,6 @@ class HitRecord:
 
 class Hittable(ABC):
     @abstractmethod
-    def hit(self, r: Ray, ray_tmin: float, ray_tmax: float) -> Optional[HitRecord]:
+    def hit(self, r: Ray, ray_t: Interval) -> Optional[HitRecord]:
         """Determine if a ray hits this object"""
         pass

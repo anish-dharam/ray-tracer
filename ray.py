@@ -5,5 +5,5 @@ class Ray():
         self.origin = origin
         self.direction = direction
 
-    def at(self, t):
+    def at(self, t: float) -> Point3:
         return self.origin + t * self.direction

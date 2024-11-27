@@ -1,23 +1,23 @@
-import math
 from hittable import HitRecord, Hittable
-from vec3 import Point3, dot
+from vec3 import Point3
 from ray import Ray
 from typing import Optional
-import numpy
+import numpy # type: ignore
+from interval import Interval
 
 class Cube(Hittable):
     def __init__(self, center: Point3, half_length: float):
         self.center = center
         self.half_length = half_length
     
-    def hit(self, r: Ray, ray_tmin: float, ray_tmax: float) -> Optional[HitRecord]:
+    def hit(self, r: Ray, ray_t: Interval) -> Optional[HitRecord]:
         #https://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
         # reciprocal_x = 1 / r.direction.x()
         # reciprocal_y = 1 / r.direction.y()
         # reciprocal_z = 1 / r.direction.z()
-        reciprocal_x = numpy.divide(1, r.direction.x())
-        reciprocal_y = numpy.divide(1, r.direction.y())
-        reciprocal_z = numpy.divide(1, r.direction.z())
+        reciprocal_x: float = numpy.divide(1, r.direction.x())
+        reciprocal_y: float = numpy.divide(1, r.direction.y())
+        reciprocal_z: float = numpy.divide(1, r.direction.z())
 
         #left bottom back (minimal coordinates)
         lbb = self.center - Point3(self.half_length, self.half_length, self.half_length)
@@ -35,11 +35,11 @@ class Cube(Hittable):
         tmin = max(min(t1, t2), min(t3, t4), min(t5, t6))
         tmax = min(max(t1, t2), max(t3, t4), max(t5, t6))
 
-        if tmax < ray_tmin: #too late (or square behind ray, etc.)
+        if tmax < ray_t.lo: #too late (or square behind ray, etc.)
             return None
         elif tmin > tmax:
             return None
-        elif tmax > ray_tmax:
+        elif tmin > ray_t.hi:
             return None
 
         t=tmin

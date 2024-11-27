@@ -1,13 +1,15 @@
-from vec3 import Vec3, Point3, Color, dot, unit_vector, write_color
+from vec3 import Vec3, Point3, Color, unit_vector, write_color
 from ray import Ray
 import sys
 import math
-from hittable import Hittable, HitRecord
+from hittable import Hittable
 from hittable_list import HittableList
 from sphere import Sphere
 from cube import Cube
+from interval import Interval
+
 def ray_color(r: Ray, world: Hittable) -> Color:
-    res = world.hit(r, 0, math.inf)
+    res = world.hit(r, Interval(0, math.inf))
     if res:
         return 0.5 * (res.normal + Color(1, 1, 1))
 
@@ -23,13 +25,15 @@ def main():
     if HEIGHT < 1:
         HEIGHT = 1
 
+
 #world
     world: HittableList = HittableList([])
     world.add(Sphere(Point3(0, 0, -1), 0.5))
-    world.add(Sphere(Point3(0.5, 0.1, -1), 0.4))
-    # world.add(Sphere(Point3(-0.1, -0.2, -0.3), 0.2))
-    world.add(Sphere(Point3(0, -100.5, -1), 100))
+    world.add(Sphere(Point3(2, 0.1, -3), 0.4))
+    world.add(Sphere(Point3(0, -210.5, -3), 200))
     world.add(Cube(Point3(-1.0, 1.0, -1.5), 0.4))
+    world.add(Cube(Point3(4.0, -3.0, -5.5), 1.4))
+
 #camera
     focal_length = 1.0
     viewport_height = 2.0
