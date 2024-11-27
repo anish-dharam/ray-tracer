@@ -26,6 +26,8 @@ def main():
 #world
     world: HittableList = HittableList([])
     world.add(Sphere(Point3(0, 0, -1), 0.5))
+    world.add(Sphere(Point3(0.5, 0.1, -1), 0.4))
+    world.add(Sphere(Point3(-0.1, -0.2, -0.3), 0.2))
     world.add(Sphere(Point3(0, -100.5, -1), 100))
 
 #camera
