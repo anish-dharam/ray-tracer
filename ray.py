@@ -1,7 +1,7 @@
-from vec3 import point3, vec3
+from vec3 import Point3, Vec3
 
-class ray():
-    def __init__(self, origin=point3(), direction=vec3()):
+class Ray():
+    def __init__(self, origin=Point3(), direction=Vec3()):
         self.origin = origin
         self.direction = direction
 

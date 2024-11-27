@@ -1,7 +1,7 @@
 import math
 import sys
 
-class vec3:
+class Vec3:
 
     def __init__(self, e0=0, e1=0, e2=0):
         self.e = [e0, e1, e2]
@@ -16,22 +16,22 @@ class vec3:
         return self.e[2]
 
     def __add__(self, other):
-        return vec3(self.e[0] + other.e[0], self.e[1] + other.e[1], self.e[2] + other.e[2])
+        return Vec3(self.e[0] + other.e[0], self.e[1] + other.e[1], self.e[2] + other.e[2])
     
     def __sub__(self, other):
-        return vec3(self.e[0] - other.e[0], self.e[1] - other.e[1], self.e[2] - other.e[2])
+        return Vec3(self.e[0] - other.e[0], self.e[1] - other.e[1], self.e[2] - other.e[2])
 
     def __mul__(self, t):
-        return vec3(self.e[0] * t, self.e[1] * t, self.e[2] * t)
+        return Vec3(self.e[0] * t, self.e[1] * t, self.e[2] * t)
     
     def __rmul__(self, t):
         return self.__mul__(t)
 
     def __truediv__(self, scalar):
-        return vec3(self.e[0] / scalar, self.e[1] / scalar, self.e[2] / scalar)
+        return Vec3(self.e[0] / scalar, self.e[1] / scalar, self.e[2] / scalar)
 
     def __neg__(self):
-        return vec3(-self.e[0], -self.e[1], -self.e[2])
+        return Vec3(-self.e[0], -self.e[1], -self.e[2])
 
     def len_squared(self):
         return self.e[0]**2 + self.e[1]**2 + self.e[2]**2
@@ -43,17 +43,13 @@ def dot(u, v):
     return u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2]
 
 def cross(u, v):
-    return vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1], u.e[2] * v.e[0] - u.e[0] * v.e[2], u.e[0] * v.e[1] - u.e[1] * v.e[0])
+    return Vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1], u.e[2] * v.e[0] - u.e[0] * v.e[2], u.e[0] * v.e[1] - u.e[1] * v.e[0])
 
 def unit_vector(v):
     return v / v.length()
 
-class color(vec3):
-
-    pass
-
-class point3(vec3):
-    pass
+Color = Vec3
+Point3 = Vec3
 
 def write_color(pixel_color):
     r = pixel_color.x()
