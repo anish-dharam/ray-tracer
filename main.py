@@ -5,7 +5,7 @@ import math
 from hittable import Hittable, HitRecord
 from hittable_list import HittableList
 from sphere import Sphere
-
+from cube import Cube
 def ray_color(r: Ray, world: Hittable) -> Color:
     res = world.hit(r, 0, math.inf)
     if res:
@@ -27,9 +27,9 @@ def main():
     world: HittableList = HittableList([])
     world.add(Sphere(Point3(0, 0, -1), 0.5))
     world.add(Sphere(Point3(0.5, 0.1, -1), 0.4))
-    world.add(Sphere(Point3(-0.1, -0.2, -0.3), 0.2))
+    # world.add(Sphere(Point3(-0.1, -0.2, -0.3), 0.2))
     world.add(Sphere(Point3(0, -100.5, -1), 100))
-
+    world.add(Cube(Point3(-1.0, 1.0, -1.5), 0.4))
 #camera
     focal_length = 1.0
     viewport_height = 2.0

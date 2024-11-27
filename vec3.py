@@ -3,7 +3,7 @@ import sys
 
 class Vec3:
 
-    def __init__(self, e0=0, e1=0, e2=0):
+    def __init__(self, e0=0.0, e1=0.0, e2=0.0):
         self.e = [e0, e1, e2]
     
     def x(self):

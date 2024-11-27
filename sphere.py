@@ -1,6 +1,6 @@
 import math
 from hittable import HitRecord, Hittable
-from vec3 import Vec3, Point3, dot
+from vec3 import Point3, dot
 from ray import Ray
 from typing import Optional
 
