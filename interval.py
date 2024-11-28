@@ -15,5 +15,12 @@ class Interval():
     def exclusive(self, x):
         return self.lo < x < self.hi
 
+    def clamp_float(self, x: float):
+        if (x < self.lo):
+            return self.lo
+        elif (x > self.hi):
+            return self.hi
+        return x
+
 empty = Interval(math.inf, -math.inf)
 universe = Interval(-math.inf, math.inf)

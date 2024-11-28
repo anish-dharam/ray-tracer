@@ -16,7 +16,7 @@ def main():
     world.add(Cube(Point3(4.0, -3.0, -5.5), 1.4))
 
 #camera
-    cam = Camera(16.0 / 9.0, 400)
+    cam = Camera(16.0 / 9.0, 400, 1)
     cam.render(world)
     return
 

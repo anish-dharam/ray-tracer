@@ -1,5 +1,7 @@
 import math
 import sys
+import random
+from interval import Interval
 
 class Vec3:
 
@@ -56,8 +58,12 @@ def write_color(pixel_color):
     g = pixel_color.y()
     b = pixel_color.z()
 
-    r = int(255.999 * r)
-    g = int(255.999 * g)
-    b = int(255.999 * b)
+    intensity: Interval = Interval(0.000, 0.999)
+    r = int(255.999 * intensity.clamp_float(r))
+    g = int(255.999 * intensity.clamp_float(g))
+    b = int(255.999 * intensity.clamp_float(b))
 
     sys.stdout.write(f"{r} {g} {b}\n")
+
+def random_float(lo=0.0, hi=1.0):
+    return random.uniform(lo, hi)

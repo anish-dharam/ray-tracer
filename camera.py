@@ -2,14 +2,15 @@ import math
 import sys
 from hittable import Hittable
 from ray import Ray
-from vec3 import Vec3, Color, Point3, unit_vector, write_color
+from vec3 import Vec3, Color, Point3, unit_vector, write_color, random_float
 from interval import Interval
 
 class Camera():
 
-    def __init__(self, aspect_ratio: float, image_width: int):
+    def __init__(self, aspect_ratio: float, image_width: int, samples_per_pixel: int):
         self.aspect_ratio = aspect_ratio
         self.image_width = image_width
+        self.samples_per_pixel = samples_per_pixel
 
     def render(self, world: Hittable):
         self.initialize()
@@ -18,12 +19,11 @@ class Camera():
             sys.stderr.write("\rScanlines remaining: " + str(self.image_height - j) + " ")
             sys.stderr.flush()
             for i in range(self.image_width):
-                pixel_center: Point3 = self.pixel00_loc + (self.del_u * i) + (self.del_v * j)
-                ray_direction: Vec3 = pixel_center - self.camera_center
-                r = Ray(self.camera_center, ray_direction)
-
-                pixel_color: Color = self.ray_color(r, world)
-                write_color(pixel_color)
+                pixel_color = Color() #0, 0, 0
+                for sample in range(self.samples_per_pixel):
+                    r = self.get_ray(i, j)
+                    pixel_color += self.ray_color(r, world)
+                write_color(pixel_color / self.samples_per_pixel)
 
         sys.stderr.write("\rDone.                   \n")
         return
@@ -51,7 +51,22 @@ class Camera():
 
         self.pixel00_loc = viewport_upper_left + (self.del_u + self.del_v) * 0.5
         return
+
+    def get_ray(self, i: int, j: int):
+        #ray from origin to randomly sampled point around i, j
+        offset = self.sample_square()
+        pixel_sample = self.pixel00_loc + ((i + offset.x()) * self.del_u) + ((j + offset.y()) * self.del_v)
+        # gets random pixel around point i, j
+
+        direction = pixel_sample - self.camera_center
+
+        return Ray(self.camera_center, direction)
     
+    def sample_square(self):
+        # return random vector to a unit square, from (-.5, -.5) to (.5, .5)
+        return Vec3(random_float() - 0.5, random_float() - 0.5, 0)
+
+
     def ray_color(self, r: Ray, world: Hittable) -> Color:
         res = world.hit(r, Interval(0, math.inf))
         if res:
