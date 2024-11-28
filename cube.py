@@ -15,12 +15,12 @@ class Cube(Hittable):
         # reciprocal_x = 1 / r.direction.x()
         # reciprocal_y = 1 / r.direction.y()
         # reciprocal_z = 1 / r.direction.z()
-        reciprocal_x: float = numpy.divide(1, r.direction.x())
+        reciprocal_x: float = numpy.divide(1, r.direction.x()) #very expensive
         reciprocal_y: float = numpy.divide(1, r.direction.y())
         reciprocal_z: float = numpy.divide(1, r.direction.z())
 
         #left bottom back (minimal coordinates)
-        lbb = self.center - Point3(self.half_length, self.half_length, self.half_length)
+        lbb = self.center - Point3(self.half_length, self.half_length, self.half_length) #very expensive
         #right top front (maximal coordinates)
         rtf = self.center + Point3(self.half_length, self.half_length, self.half_length)
 
