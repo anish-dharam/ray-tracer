@@ -1,10 +1,11 @@
 import math
+from dataclasses import dataclass
 
+@dataclass(frozen=True)
 class Interval():
-    def __init__(self, lo: float=math.inf, hi: float=-math.inf):
-        # default interval is invalid/maximally weird
-        self.lo = lo
-        self.hi = hi
+    lo: float=math.inf
+    hi: float=-math.inf
+    # default interval is invalid/maximally weird
     
     def size(self):
         return self.hi - self.lo

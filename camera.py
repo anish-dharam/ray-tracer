@@ -2,8 +2,9 @@ import math
 import sys
 from hittable import Hittable
 from ray import Ray
-from vec3 import Vec3, Color, Point3, unit_vector, write_color, random_float
+from vec3 import vec3, color, point3, write_color, random_vec
 from interval import Interval
+import numpy as np
 
 class Camera():
 
@@ -19,7 +20,7 @@ class Camera():
             sys.stderr.write("\rScanlines remaining: " + str(self.image_height - j) + " ")
             sys.stderr.flush()
             for i in range(self.image_width):
-                pixel_color = Color() #0, 0, 0
+                pixel_color = color() #0, 0, 0
                 for _ in range(self.samples_per_pixel):
                     r = self.get_ray(i, j)
                     pixel_color += self.ray_color(r, world)
@@ -31,32 +32,29 @@ class Camera():
     def initialize(self):
         self.image_height = int(self.image_width // self.aspect_ratio)
         self.image_height = 1 if self.image_height < 1 else self.image_height
-        self.camera_center = Point3(0, 0, 0)
+        self.camera_center = point3(0, 0, 0)
 
         focal_length = 1.0
         viewport_height = 2.0
         viewport_width = viewport_height * (self.image_width/self.image_height)
 
-    # viewport
-        viewport_u = Vec3(viewport_width, 0, 0)
-        viewport_v = Vec3(0, -viewport_height, 0)
     # pixel delta
-        self.del_u = viewport_u / self.image_width
-        self.del_v = viewport_v / self.image_height
+        self.dels = np.array([viewport_width / self.image_width, -viewport_height / self.image_height, 1.0], dtype='double')
 
         viewport_upper_left = (self.camera_center 
-            - Vec3(0, 0, focal_length) 
-            - viewport_u/2 
-            - viewport_v/2)
+            - vec3(0, 0, focal_length) 
+            - (vec3(viewport_width, -viewport_height) / 2))
 
-        self.pixel00_loc = viewport_upper_left + (self.del_u + self.del_v) * 0.5
+        self.pixel00_loc = viewport_upper_left + (self.dels[0] + self.dels[1]) * 0.5
         return
 
-    def get_ray(self, i: int, j: int):
+    def get_ray(self, i: int, j: int) -> Ray:
         #ray from origin to randomly sampled point around i, j
         offset = self.sample_square()
-        pixel_sample = self.pixel00_loc + ((i + offset.x()) * self.del_u) + ((j + offset.y()) * self.del_v)
-        # gets random pixel around point i, j
+        pixel_offset = np.array([i, j, 0], dtype='double')
+
+        pixel_sample = self.pixel00_loc + (offset + pixel_offset) * self.dels
+        # gets random pixel loc around point i, j
 
         direction = pixel_sample - self.camera_center
 
@@ -64,18 +62,20 @@ class Camera():
     
     def sample_square(self):
         # return random vector to a unit square, from (-.5, -.5) to (.5, .5)
-        return Vec3(random_float() - 0.5, random_float() - 0.5, 0)
+        res = random_vec(-0.5, 0.5)
+        res[2] = 0.0
+        return res
 
 
-    def ray_color(self, r: Ray, world: Hittable) -> Color:
+    def ray_color(self, r: Ray, world: Hittable) -> np.ndarray:
         res = world.hit(r, Interval(0, math.inf))
         if res:
-            return 0.5 * (res.normal + Color(1, 1, 1))
+            return 0.5 * (res.normal + color(1, 1, 1))
 
-        unit_direction: Vec3 = unit_vector(r.direction)
-        a = 0.5 * (unit_direction.y() + 1.0)
-        return (1-a) * Color(1, 1, 1) + a * Color(0.5, 0.7, 1)
+        unit_direction: np.ndarray = r.direction / np.linalg.norm(r.direction)
+        a = 0.5 * (unit_direction[1] + 1.0)
+        return (1-a) * color(1, 1, 1) + a * color(0.5, 0.7, 1)
 
 
-def degrees_to_radians(degrees: float):
+def degrees_to_radians(degrees: float) -> float:
     return degrees * math.pi / 180.0

@@ -1,9 +1,11 @@
-from vec3 import Point3, Vec3
+from vec3 import point3, vec3
+from dataclasses import dataclass
+import numpy as np
 
+@dataclass(frozen=True)
 class Ray():
-    def __init__(self, origin=Point3(), direction=Vec3()):
-        self.origin = origin
-        self.direction = direction
+    origin: np.ndarray=point3()
+    direction: np.ndarray=vec3()
 
-    def at(self, t: float) -> Point3:
+    def at(self, t: float) -> np.ndarray:
         return self.origin + t * self.direction

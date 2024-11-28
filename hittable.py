@@ -1,20 +1,21 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from ray import Ray
-from vec3 import Vec3, dot
+from vec3 import vec3, point3
 from typing import Optional
 from interval import Interval
+import numpy as np
 
 @dataclass
 class HitRecord:
     t: float = 0.0
-    point: tuple = (0, 0, 0)
-    normal: Vec3 = Vec3(0, 0, 0)
+    point: np.ndarray = point3()
+    normal: np.ndarray = vec3()
     front_face: bool = None
 
-    def set_face_normal(self, r: Ray, outward_normal: Vec3):
+    def set_face_normal(self, r: Ray, outward_normal: np.ndarray):
         #outward normal has unit length, mutates front_face, normal
-        self.front_face = dot(r.direction, outward_normal) < 0
+        self.front_face = r.direction.dot(outward_normal) < 0
         self.normal = outward_normal if self.front_face else -outward_normal
 
 class Hittable(ABC):
