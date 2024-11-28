@@ -67,3 +67,6 @@ def write_color(pixel_color):
 
 def random_float(lo=0.0, hi=1.0):
     return random.uniform(lo, hi)
+
+def random_vec(lo=0.0, hi=1.0):
+    return Vec3(random_float(lo, hi), random_float(lo, hi), random_float(lo, hi))

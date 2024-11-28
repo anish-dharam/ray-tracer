@@ -20,7 +20,7 @@ class Camera():
             sys.stderr.flush()
             for i in range(self.image_width):
                 pixel_color = Color() #0, 0, 0
-                for sample in range(self.samples_per_pixel):
+                for _ in range(self.samples_per_pixel):
                     r = self.get_ray(i, j)
                     pixel_color += self.ray_color(r, world)
                 write_color(pixel_color / self.samples_per_pixel)
