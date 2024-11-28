@@ -16,7 +16,7 @@ def main():
     world.add(Cube(point3(4.0, -3.0, -5.5), 1.4))
 
 #camera
-    cam = Camera(aspect_ratio=16.0 / 9.0, image_width=400, samples_per_pixel=100)
+    cam = Camera(aspect_ratio=16.0 / 9.0, image_width=400, samples_per_pixel=4)
     cam.render(world)
     return
 
