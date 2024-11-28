@@ -4,8 +4,8 @@ import numpy as np
 
 @dataclass(frozen=True)
 class Ray():
-    origin: np.ndarray=point3()
-    direction: np.ndarray=vec3()
+    origin: np.ndarray
+    direction: np.ndarray
 
     def at(self, t: float) -> np.ndarray:
         return self.origin + t * self.direction

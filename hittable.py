@@ -8,10 +8,10 @@ import numpy as np
 
 @dataclass
 class HitRecord:
-    t: float = 0.0
-    point: np.ndarray = point3()
-    normal: np.ndarray = vec3()
-    front_face: bool = None
+    t: float
+    point: np.ndarray
+    normal: Optional[np.ndarray]=None
+    front_face: Optional[bool]=None
 
     def set_face_normal(self, r: Ray, outward_normal: np.ndarray):
         #outward normal has unit length, mutates front_face, normal
