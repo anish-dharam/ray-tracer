@@ -27,8 +27,13 @@ class Cube(Hittable):
         scaled_lbb = (lbb - r.origin) * reciprocal_vec #t1, t3, t5
         scaled_rtf = (rtf - r.origin) * reciprocal_vec #t2, t4, t6
 
-        tmin: np.float64 = np.max(np.minimum(scaled_lbb, scaled_rtf))
-        tmax: np.float64 = np.min(np.maximum(scaled_lbb, scaled_rtf))
+        tmin = max(min(scaled_lbb[0], scaled_rtf[0]), min(scaled_lbb[1], scaled_rtf[1]), min(scaled_lbb[2], scaled_rtf[2]))
+        tmax = min(max(scaled_rtf[0], scaled_lbb[0]), max(scaled_rtf[1], scaled_lbb[1]), max(scaled_rtf[2], scaled_lbb[2]))
+        # these were both slower than the above:
+        # tmin: np.float64 = np.max(np.minimum(scaled_lbb, scaled_rtf)) 
+        # tmax: np.float64 = np.min(np.maximum(scaled_lbb, scaled_rtf))
+        # tmin = max(np.minimum(scaled_lbb, scaled_rtf))
+        # tmax = max(np.minimum(scaled_lbb, scaled_rtf))
 
         if tmax < ray_t.lo: #too late (or square behind ray, etc.)
             return None
