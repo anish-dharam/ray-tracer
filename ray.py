@@ -1,4 +1,3 @@
-from vec3 import point3, vec3
 from dataclasses import dataclass
 import numpy as np
 

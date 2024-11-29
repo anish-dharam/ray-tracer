@@ -14,6 +14,7 @@ class Camera():
         self.samples_per_pixel = samples_per_pixel
 
     def render(self, world: Hittable):
+        """Calls initialize, draws all pixels"""
         self.initialize()
         sys.stdout.write("P3\n" + str(self.image_width) + " " + str(self.image_height) + "\n255\n")
         for j in range(self.image_height):
@@ -30,6 +31,7 @@ class Camera():
         return
 
     def initialize(self):
+        """populates fields, calculates first pixel location"""
         self.image_height = int(self.image_width // self.aspect_ratio)
         self.image_height = 1 if self.image_height < 1 else self.image_height
         self.camera_center = point3(0, 0, 0)
@@ -49,6 +51,7 @@ class Camera():
         return
 
     def get_ray(self, i: int, j: int) -> Ray:
+        """returns random ray around the pixel at i, j"""
         #ray from origin to randomly sampled point around i, j
         offset = self.sample_square()
         pixel_offset = np.array([i, j, 0], dtype='double')
@@ -61,13 +64,14 @@ class Camera():
         return Ray(self.camera_center, direction)
     
     def sample_square(self):
-        # return random vector to a unit square, from (-.5, -.5) to (.5, .5)
+        """return random vector to a unit square, from (-.5, -.5) to (.5, .5)"""
         res = random_vec(-0.5, 0.5)
         res[2] = 0.0
         return res
 
 
     def ray_color(self, r: Ray, world: Hittable) -> np.ndarray:
+        """given a ray, calculates color using the normal vector of the hit object"""
         res = world.hit(r, Interval(0, math.inf))
         if res:
             return 0.5 * (res.normal + color(1, 1, 1))
@@ -78,4 +82,5 @@ class Camera():
 
 
 def degrees_to_radians(degrees: float) -> float:
+    """not used yet"""
     return degrees * math.pi / 180.0

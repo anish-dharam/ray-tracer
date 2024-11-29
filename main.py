@@ -1,12 +1,10 @@
 from vec3 import point3
 from hittable_list import HittableList
 from sphere import Sphere
-from cube import Cube
 from camera import Camera
 
 
 def main():
-
 #world
     world: HittableList = HittableList([])
     world.add(Sphere(point3(0, 0, -1), 0.5))
