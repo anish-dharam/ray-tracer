@@ -3,8 +3,21 @@ from ray import Ray
 from typing import Optional
 from interval import Interval
 import numpy as np
+import numba.types as nbt
+from numba import njit
+from numba.experimental import jitclass
 
-class Sphere(Hittable):
+spec = [
+    ('center', nbt.float64[:]),
+    ('radius', nbt.float64),
+]
+
+
+@jitclass(spec)
+class Sphere():
+    center: np.ndarray[float]
+    radius: float
+
     def __init__(self, center: np.ndarray, radius: float):
         self.center = center
         self.radius = max(0, radius)

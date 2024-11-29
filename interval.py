@@ -1,11 +1,21 @@
 import math
-from dataclasses import dataclass
+import numba.types as nbt
+from numba.experimental import jitclass
 
-@dataclass(frozen=True)
+spec = [
+    ('lo', nbt.float64),
+    ('hi', nbt.float64),
+]
+
+# @dataclass(frozen=True)
+@jitclass(spec)
 class Interval():
-    lo: float=math.inf
-    hi: float=-math.inf
+    lo: float
+    hi: float
     # default interval is invalid/maximally weird
+    def __init__(self, lo, hi):
+        self.lo = lo
+        self.hi = hi
     
     def size(self):
         return self.hi - self.lo
