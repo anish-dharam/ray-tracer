@@ -4,6 +4,7 @@ from hittable import Hittable
 from ray import Ray
 from vec3 import Vec3, Color, Point3, unit_vector, write_color, random_float
 from interval import Interval
+import random
 
 class Camera():
 
@@ -67,7 +68,7 @@ class Camera():
     
     def sample_square(self):
         # return random vector to a unit square, from (-.5, -.5) to (.5, .5)
-        return Vec3(random_float() - 0.5, random_float() - 0.5, 0)
+        return Vec3(random.uniform(0, 1) - 0.5, random.uniform(0, 1) - 0.5, 0)
 
 
     def ray_color(self, r: Ray, depth: int, world: Hittable) -> Color:

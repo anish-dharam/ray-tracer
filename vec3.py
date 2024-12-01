@@ -69,7 +69,7 @@ def random_float(lo=0.0, hi=1.0) -> float:
     return random.uniform(lo, hi)
 
 def random_vec(lo=0.0, hi=1.0) -> Vec3:
-    return Vec3(random_float(lo, hi), random_float(lo, hi), random_float(lo, hi))
+    return Vec3(random.uniform(lo, hi), random.uniform(lo, hi), random.uniform(lo, hi))
 
 def random_unit_vector() -> Vec3:
     while True:
