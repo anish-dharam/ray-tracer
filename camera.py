@@ -2,7 +2,7 @@ import math
 import sys
 from hittable import Hittable
 from ray import Ray
-from vec3 import Vec3, Color, Point3, unit_vector, write_color, random_float, random_on_hemisphere
+from vec3 import Vec3, Color, Point3, unit_vector, write_color, random_float, random_unit_vector
 from interval import Interval
 
 class Camera():
@@ -74,7 +74,7 @@ class Camera():
             return Color()
         res = world.hit(r, Interval(0.001, math.inf)) # prevents shadow acne, sped up 3-sphere 2-cube w/ max_depth 10 by ~50%
         if res:
-            bounce_direction = random_on_hemisphere(res.normal)
+            bounce_direction = random_unit_vector() + res.normal #lambertian reflection
             return 0.5 * self.ray_color(Ray(res.point, bounce_direction), depth - 1, world)
 
         unit_direction: Vec3 = unit_vector(r.direction)

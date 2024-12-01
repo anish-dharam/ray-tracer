@@ -9,11 +9,18 @@ def main():
 
 #world
     world: HittableList = HittableList([])
-    world.add(Sphere(Point3(0, 0, -1), 0.5))
-    world.add(Sphere(Point3(2, 0.1, -3), 0.4))
-    world.add(Sphere(Point3(0, -210.5, -3), 200))
-    world.add(Cube(Point3(-1.0, 1.0, -1.5), 0.4))
-    world.add(Cube(Point3(4.0, -3.0, -5.5), 1.4))
+    #anish example
+    # world.add(Sphere(Point3(0, 0, -1), 0.5))
+    # world.add(Sphere(Point3(2, 0.1, -3), 0.4))
+    # world.add(Sphere(Point3(0, -210.5, -3), 200))
+    # world.add(Cube(Point3(-1.0, 1.0, -1.5), 0.4))
+    # world.add(Cube(Point3(4.0, -3.0, -5.5), 1.4))
+    
+    #book example + cube
+    world.add(Sphere(Point3(0,0,-1), 0.5))
+    world.add(Cube(Point3(-1.0, 0, -1), 0.4))
+    world.add(Sphere(Point3(0,-100.5,-1), 100))
+
 
 #camera
     cam = Camera(aspect_ratio=16.0 / 9.0, image_width=400, samples_per_pixel=10, max_depth=50)
