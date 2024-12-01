@@ -6,48 +6,41 @@ from interval import Interval
 class Vec3:
 
     def __init__(self, e0=0.0, e1=0.0, e2=0.0):
-        self.e = [e0, e1, e2]
+        self.x = e0
+        self.y = e1
+        self.z = e2
     
-    def x(self):
-        return self.e[0]
-    
-    def y(self):
-        return self.e[1]
-    
-    def z(self):
-        return self.e[2]
-
     def __add__(self, other):
-        return Vec3(self.e[0] + other.e[0], self.e[1] + other.e[1], self.e[2] + other.e[2])
+        return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
     
     def __sub__(self, other):
-        return Vec3(self.e[0] - other.e[0], self.e[1] - other.e[1], self.e[2] - other.e[2])
+        return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
 
     def __mul__(self, t):
         if isinstance(t, Vec3):
-            return Vec3(self.e[0] * t.e[0], self.e[1] * t.e[1], self.e[2] * t.e[2])
-        return Vec3(self.e[0] * t, self.e[1] * t, self.e[2] * t)
+            return Vec3(self.x * t.x, self.y * t.y, self.z * t.z)
+        return Vec3(self.x * t, self.y * t, self.z * t)
     
     def __rmul__(self, t):
         return self.__mul__(t)
 
     def __truediv__(self, scalar):
-        return Vec3(self.e[0] / scalar, self.e[1] / scalar, self.e[2] / scalar)
+        return Vec3(self.x / scalar, self.y / scalar, self.z / scalar)
 
     def __neg__(self):
-        return Vec3(-self.e[0], -self.e[1], -self.e[2])
+        return Vec3(-self.x, -self.y, -self.z)
 
     def len_squared(self):
-        return self.e[0]**2 + self.e[1]**2 + self.e[2]**2
+        return self.x**2 + self.y**2 + self.z**2
 
     def length(self):
         return math.sqrt(self.len_squared())
 
 def dot(u, v):
-    return u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2]
+    return u.x * v.x + u.y * v.y + u.z * v.z
 
 def cross(u, v):
-    return Vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1], u.e[2] * v.e[0] - u.e[0] * v.e[2], u.e[0] * v.e[1] - u.e[1] * v.e[0])
+    return Vec3(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x)
 
 def unit_vector(v):
     return v / v.length()
@@ -61,9 +54,9 @@ def linear_to_gamma(lin_comp: float):
     return 0
 
 def write_color(pixel_color: Color):
-    r = linear_to_gamma(pixel_color.x())
-    g = linear_to_gamma(pixel_color.y())
-    b = linear_to_gamma(pixel_color.z())
+    r = linear_to_gamma(pixel_color.x)
+    g = linear_to_gamma(pixel_color.y)
+    b = linear_to_gamma(pixel_color.z)
 
     intensity: Interval = Interval(0.000, 0.999)
     r = int(255.999 * intensity.clamp_float(r))
@@ -87,7 +80,7 @@ def random_unit_vector() -> Vec3:
 
 def near_zero(v: Vec3) -> bool:
     threshold = 1e-8
-    return abs(v.x()) < threshold and abs(v.y()) < threshold and abs(v.z()) < threshold
+    return abs(v.x) < threshold and abs(v.y) < threshold and abs(v.z) < threshold
 
 def reflect(colliding_vec: Vec3, surface_unit_normal: Vec3) -> Vec3:
     # subtract by twice the projection

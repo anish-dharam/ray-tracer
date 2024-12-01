@@ -1,6 +1,6 @@
 # TODOs
 
-- [ ] change vec3 to use fields instead of methods to get x, y, z
+- [x] change vec3 to use fields instead of methods to get x, y, z
 - [ ] remove front_face field from hittables
 - [ ] try inlining random_float, see performance
 - [ ] change Optional annotations to \_ | None

@@ -58,7 +58,7 @@ class Camera():
     def get_ray(self, i: int, j: int):
         #ray from origin to randomly sampled point around i, j
         offset = self.sample_square()
-        pixel_sample = self.pixel00_loc + ((i + offset.x()) * self.del_u) + ((j + offset.y()) * self.del_v)
+        pixel_sample = self.pixel00_loc + ((i + offset.x) * self.del_u) + ((j + offset.y) * self.del_v)
         # gets random pixel around point i, j
 
         direction = pixel_sample - self.camera_center
@@ -81,7 +81,7 @@ class Camera():
             return Color()
 
         unit_direction: Vec3 = unit_vector(r.direction)
-        a = 0.5 * (unit_direction.y() + 1.0)
+        a = 0.5 * (unit_direction.y + 1.0)
         return (1-a) * Color(1, 1, 1) + a * Color(0.5, 0.7, 1)
 
 
