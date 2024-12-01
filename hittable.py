@@ -1,14 +1,16 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from ray import Ray
-from vec3 import Vec3, dot
+from vec3 import Vec3, dot, Color
 from typing import Optional
 from interval import Interval
+from material import Material, Lambertian
 
 @dataclass
 class HitRecord:
     t: float = 0.0
     point: tuple = (0, 0, 0)
+    mat: Material = Lambertian(Color())
     normal: Vec3 = Vec3(0, 0, 0)
     front_face: bool = None
 

@@ -24,6 +24,8 @@ class Vec3:
         return Vec3(self.e[0] - other.e[0], self.e[1] - other.e[1], self.e[2] - other.e[2])
 
     def __mul__(self, t):
+        if isinstance(t, Vec3):
+            return Vec3(self.e[0] * t.e[0], self.e[1] * t.e[1], self.e[2] * t.e[2])
         return Vec3(self.e[0] * t, self.e[1] * t, self.e[2] * t)
     
     def __rmul__(self, t):
@@ -70,15 +72,23 @@ def write_color(pixel_color: Color):
 
     sys.stdout.write(f"{r} {g} {b}\n")
 
-def random_float(lo=0.0, hi=1.0):
+def random_float(lo=0.0, hi=1.0) -> float:
     return random.uniform(lo, hi)
 
-def random_vec(lo=0.0, hi=1.0):
+def random_vec(lo=0.0, hi=1.0) -> Vec3:
     return Vec3(random_float(lo, hi), random_float(lo, hi), random_float(lo, hi))
 
-def random_unit_vector():
+def random_unit_vector() -> Vec3:
     while True:
         p = random_vec(-1, 1)
         lensq = p.len_squared()
         if (1e-160 < lensq <= 1):
             return p / math.sqrt(lensq)
+
+def near_zero(v: Vec3) -> bool:
+    threshold = 1e-8
+    return abs(v.x()) < threshold and abs(v.y()) < threshold and abs(v.z()) < threshold
+
+def reflect(colliding_vec: Vec3, surface_unit_normal: Vec3) -> Vec3:
+    # subtract by twice the projection
+    return colliding_vec - 2 * dot(colliding_vec, surface_unit_normal) * surface_unit_normal

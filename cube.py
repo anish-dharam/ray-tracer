@@ -4,11 +4,13 @@ from ray import Ray
 from typing import Optional
 import numpy # type: ignore
 from interval import Interval
+from material import Material
 
 class Cube(Hittable):
-    def __init__(self, center: Point3, half_length: float):
+    def __init__(self, center: Point3, half_length: float, mat: Material):
         self.center = center
         self.half_length = half_length
+        self.mat = mat
     
     def hit(self, r: Ray, ray_t: Interval) -> Optional[HitRecord]:
         #https://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
@@ -60,7 +62,7 @@ class Cube(Hittable):
         else:
             outward_normal = Point3(0, 0, 1 if relative_pos.z() > 0 else -1)
             
-        rec = HitRecord(t, p, None, None)
+        rec = HitRecord(t, p, self.mat, None, None)
         rec.set_face_normal(r, outward_normal)
 
         return rec

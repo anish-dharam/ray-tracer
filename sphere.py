@@ -4,11 +4,13 @@ from vec3 import Point3, dot
 from ray import Ray
 from typing import Optional
 from interval import Interval
+from material import Material
 
 class Sphere(Hittable):
-    def __init__(self, center: Point3, radius: float):
+    def __init__(self, center: Point3, radius: float, mat: Material):
         self.center = center
         self.radius = max(0, radius)
+        self.mat = mat
     
     def hit(self, r: Ray, ray_t: Interval) -> Optional[HitRecord]:
         #returns a boolean indicating a hit,
@@ -33,7 +35,7 @@ class Sphere(Hittable):
         t = root
         p = r.at(t)
         outward_normal = (p - self.center) / self.radius
-        rec = HitRecord(t, p, None, None)
+        rec = HitRecord(t, p, self.mat, None, None)
         rec.set_face_normal(r, outward_normal)
 
         return rec

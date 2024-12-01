@@ -2,7 +2,7 @@ import math
 import sys
 from hittable import Hittable
 from ray import Ray
-from vec3 import Vec3, Color, Point3, unit_vector, write_color, random_float, random_unit_vector
+from vec3 import Vec3, Color, Point3, unit_vector, write_color, random_float
 from interval import Interval
 
 class Camera():
@@ -24,7 +24,8 @@ class Camera():
                 pixel_color = Color() #0, 0, 0
                 for _ in range(self.samples_per_pixel):
                     r = self.get_ray(i, j)
-                    pixel_color += self.ray_color(r, self.max_depth, world)
+                    res = self.ray_color(r, self.max_depth, world)
+                    pixel_color += res
                 write_color(pixel_color / self.samples_per_pixel)
 
         sys.stderr.write("\rDone.                   \n")
@@ -72,10 +73,12 @@ class Camera():
     def ray_color(self, r: Ray, depth: int, world: Hittable) -> Color:
         if depth <= 0:
             return Color()
-        res = world.hit(r, Interval(0.001, math.inf)) # prevents shadow acne, sped up 3-sphere 2-cube w/ max_depth 10 by ~50%
-        if res:
-            bounce_direction = random_unit_vector() + res.normal #lambertian reflection
-            return 0.5 * self.ray_color(Ray(res.point, bounce_direction), depth - 1, world)
+        res_rec = world.hit(r, Interval(0.001, math.inf)) # prevents shadow acne, sped up 3-sphere 2-cube w/ max_depth 10 by ~50%
+        if res_rec:
+            res_bounce = res_rec.mat.scatter(r, res_rec.point, res_rec.normal)
+            if res_bounce:
+                return res_bounce.color * self.ray_color(res_bounce.ray, depth - 1, world)
+            return Color()
 
         unit_direction: Vec3 = unit_vector(r.direction)
         a = 0.5 * (unit_direction.y() + 1.0)
