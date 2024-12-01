@@ -12,12 +12,11 @@ class HitRecord:
     point: tuple = (0, 0, 0)
     mat: Material = Lambertian(Color())
     normal: Vec3 = Vec3(0, 0, 0)
-    front_face: bool = None
 
     def set_face_normal(self, r: Ray, outward_normal: Vec3):
         #outward normal has unit length, mutates front_face, normal
-        self.front_face = dot(r.direction, outward_normal) < 0
-        self.normal = outward_normal if self.front_face else -outward_normal
+        front_face = dot(r.direction, outward_normal) < 0
+        self.normal = outward_normal if front_face else -outward_normal
 
 class Hittable(ABC):
     @abstractmethod

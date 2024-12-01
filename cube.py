@@ -62,7 +62,7 @@ class Cube(Hittable):
         else:
             outward_normal = Point3(0, 0, 1 if relative_pos.z > 0 else -1)
             
-        rec = HitRecord(t, p, self.mat, None, None)
+        rec = HitRecord(t, p, self.mat, None)
         rec.set_face_normal(r, outward_normal)
 
         return rec
