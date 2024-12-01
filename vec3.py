@@ -70,3 +70,16 @@ def random_float(lo=0.0, hi=1.0):
 
 def random_vec(lo=0.0, hi=1.0):
     return Vec3(random_float(lo, hi), random_float(lo, hi), random_float(lo, hi))
+
+def random_unit_vector():
+    while True:
+        p = random_vec(-1, 1)
+        lensq = p.len_squared()
+        if (1e-160 < lensq <= 1):
+            return p / math.sqrt(lensq)
+
+def random_on_hemisphere(normal_vec: Vec3):
+    bounce_vec = random_unit_vector()
+    if dot(bounce_vec, normal_vec) > 0:
+        return bounce_vec
+    return -bounce_vec
