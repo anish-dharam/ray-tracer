@@ -18,7 +18,7 @@ def main():
     
     #book example + cube
     world.add(Sphere(Point3(0,0,-1), 0.5))
-    world.add(Cube(Point3(-1.0, 0, -1), 0.4))
+    world.add(Cube(Point3(-1.0, 0.03, -1), 0.4))
     world.add(Sphere(Point3(0,-100.5,-1), 100))
 
 

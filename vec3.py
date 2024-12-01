@@ -53,10 +53,15 @@ def unit_vector(v):
 Color = Vec3
 Point3 = Vec3
 
-def write_color(pixel_color):
-    r = pixel_color.x()
-    g = pixel_color.y()
-    b = pixel_color.z()
+def linear_to_gamma(lin_comp: float):
+    if lin_comp > 0:
+        return math.sqrt(lin_comp)
+    return 0
+
+def write_color(pixel_color: Color):
+    r = linear_to_gamma(pixel_color.x())
+    g = linear_to_gamma(pixel_color.y())
+    b = linear_to_gamma(pixel_color.z())
 
     intensity: Interval = Interval(0.000, 0.999)
     r = int(255.999 * intensity.clamp_float(r))
@@ -77,9 +82,3 @@ def random_unit_vector():
         lensq = p.len_squared()
         if (1e-160 < lensq <= 1):
             return p / math.sqrt(lensq)
-
-def random_on_hemisphere(normal_vec: Vec3):
-    bounce_vec = random_unit_vector()
-    if dot(bounce_vec, normal_vec) > 0:
-        return bounce_vec
-    return -bounce_vec
