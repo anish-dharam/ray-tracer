@@ -76,7 +76,7 @@ class Camera():
             return Color()
         res_rec = world.hit(r, Interval(0.001, math.inf)) # prevents shadow acne, sped up 3-sphere 2-cube w/ max_depth 10 by ~50%
         if res_rec:
-            res_bounce = res_rec.mat.scatter(r, res_rec.point, res_rec.normal)
+            res_bounce = res_rec.mat.scatter(r, res_rec.point, res_rec.normal, res_rec.front_face)
             if res_bounce:
                 return res_bounce.color * self.ray_color(res_bounce.ray, depth - 1, world)
             return Color()

@@ -85,3 +85,9 @@ def near_zero(v: Vec3) -> bool:
 def reflect(colliding_vec: Vec3, surface_unit_normal: Vec3) -> Vec3:
     # subtract by twice the projection
     return colliding_vec - 2 * dot(colliding_vec, surface_unit_normal) * surface_unit_normal
+
+def refract(v: Vec3, normal_vec: Vec3, eta_ratio: float):
+    cos_theta = min(dot(-v, normal_vec), 1.0)
+    r_out_perp = eta_ratio * (v + cos_theta * normal_vec)
+    r_out_parallel = -math.sqrt(abs(1.0 - r_out_perp.len_squared())) * normal_vec
+    return r_out_perp + r_out_parallel
