@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from vec3 import Color, random_unit_vector, near_zero, reflect, Point3, Vec3
+from vec3 import Color, unit_vector, random_unit_vector, near_zero, reflect, Point3, Vec3, dot
 from ray import Ray
 from typing import Optional
 
@@ -28,10 +28,14 @@ class Lambertian(Material):
 
 @dataclass
 class Metal(Material):
-    albedo: Color
+    albedo: Color=Color()
+    fuzz: float=0 #shouldn't be > 1
     def scatter(self, r: Ray, collision_point: Point3, surface_normal: Vec3) -> ColoredRay | None:
         reflect_direction = reflect(r.direction, surface_normal)
-        return ColoredRay(
-            Ray(collision_point, reflect_direction),
-            self.albedo
-        )
+        reflect_direction = unit_vector(reflect_direction) + (self.fuzz * random_unit_vector())
+        if dot(reflect_direction, surface_normal) > 0:
+            return ColoredRay(
+                Ray(collision_point, reflect_direction),
+                self.albedo
+            )
+        return None
