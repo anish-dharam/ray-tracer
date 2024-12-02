@@ -45,6 +45,12 @@ def cross(u, v):
 def unit_vector(v):
     return v / v.length()
 
+def random_in_unit_disk() -> Vec3:
+    while True:
+        p = Vec3(random.uniform(-1, 1), random.uniform(-1, 1), 0)
+        if p.len_squared() < 1:
+            return p
+
 Color = Vec3
 Point3 = Vec3
 
@@ -64,9 +70,6 @@ def write_color(pixel_color: Color):
     b = int(255.999 * intensity.clamp_float(b))
 
     sys.stdout.write(f"{r} {g} {b}\n")
-
-def random_float(lo=0.0, hi=1.0) -> float:
-    return random.uniform(lo, hi)
 
 def random_vec(lo=0.0, hi=1.0) -> Vec3:
     return Vec3(random.uniform(lo, hi), random.uniform(lo, hi), random.uniform(lo, hi))
