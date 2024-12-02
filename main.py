@@ -4,7 +4,6 @@ from sphere import Sphere
 from cube import Cube
 from camera import Camera
 from material import Lambertian, Metal, Dielectric
-import math
 
 
 def main():
@@ -40,9 +39,9 @@ def main():
 
 
 #camera
-    cam = Camera(aspect_ratio=16.0 / 9.0, image_width=400, samples_per_pixel=500, max_depth=50, 
+    cam = Camera(aspect_ratio=16.0 / 9.0, image_width=400, samples_per_pixel=5, max_depth=50, 
                  vfov=20, look_from=Point3(-2, 2, 1), look_at=Point3(0, 0, -1), view_up=Vec3(0, 1, 0),
-                 defocus_angle=10, focus_dist=3.4)
+                 defocus_angle=0.0001, focus_dist=0.0001)
     cam.render(world)
     return
 
