@@ -8,12 +8,13 @@ import random
 
 class Camera():
 
-    def __init__(self, aspect_ratio: float, image_width: int, samples_per_pixel: int, max_depth: int):
+    def __init__(self, aspect_ratio: float, image_width: int, samples_per_pixel: int, max_depth: int, vfov: int):
         self.aspect_ratio = aspect_ratio
         self.image_width = image_width
         self.samples_per_pixel = samples_per_pixel
         self.max_depth = max_depth #for a 3-sphere, 2-cube env: 50 sped up program by ~30%, 10 sped up program by ~70%
         # (max_depth also prevents stack overflows)
+        self.vertical_fov = vfov
 
     def render(self, world: Hittable):
         self.initialize()
@@ -37,11 +38,14 @@ class Camera():
         self.image_height = 1 if self.image_height < 1 else self.image_height
         self.camera_center = Point3(0, 0, 0)
 
+    #viewport dimensions
         focal_length = 1.0
-        viewport_height = 2.0
+        theta = degrees_to_radians(self.vertical_fov)
+        top_viewable = math.tan(theta / 2)
+        viewport_height = 2 * top_viewable * focal_length
         viewport_width = viewport_height * (self.image_width/self.image_height)
 
-    # viewport
+    # viewport vectors
         viewport_u = Vec3(viewport_width, 0, 0)
         viewport_v = Vec3(0, -viewport_height, 0)
     # pixel delta

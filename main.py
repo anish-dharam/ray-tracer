@@ -1,8 +1,10 @@
 from vec3 import Point3, Color
 from hittable_list import HittableList
 from sphere import Sphere
+from cube import Cube
 from camera import Camera
 from material import Lambertian, Metal, Dielectric
+import math
 
 
 def main():
@@ -27,16 +29,23 @@ def main():
     # world.add(Cube(Point3(4.0, -3.0, -5.5), 1.4, material_cube))
     
     #book metal example with cube
-    world.add(Sphere(Point3( 0.0, -100.5, -1.0), 100.0, material_ground))
-    world.add(Sphere(Point3( 0.0,    0.0, -1.2),   0.5, material_center))
-    world.add(Sphere(Point3(-1.0,    0.0, -1.0),   .5, material_left_glass))
-    world.add(Sphere(Point3(-1.0,    0.0, -1.0),   .4, material_bubble))
-    # world.add(Cube(Point3(-1.0,    -0.1, -0.8),   0.37, material_left_metal))
-    world.add(Sphere(Point3( 1.0,    0.0, -1.0),   0.5, material_right))
+    # world.add(Sphere(Point3( 0.0, -100.5, -1.0), 100.0, material_ground))
+    # world.add(Sphere(Point3( 0.0,    0.0, -1.2),   0.5, material_center))
+    # # world.add(Sphere(Point3(-1.0,    0.0, -1.0),   .5, material_left_glass))
+    # # world.add(Sphere(Point3(-1.0,    0.0, -1.0),   .4, material_bubble))
+    # world.add(Cube(Point3(-1.0,    -0.1, -1.2),   0.37, material_left_metal))
+    # world.add(Sphere(Point3( 1.0,    0.0, -1.0),   0.5, material_right))
+
+    R = math.cos(math.pi / 4)
+    mat_left = Lambertian(Color(0, 0, 1))
+    mat_right = Lambertian(Color(1, 0, 0))
+
+    world.add(Sphere(Point3(-R, 0, -1), R, mat_left))
+    world.add(Sphere(Point3(R, 0, -1), R, mat_right))
 
 
 #camera
-    cam = Camera(aspect_ratio=16.0 / 9.0, image_width=400, samples_per_pixel=5, max_depth=50)
+    cam = Camera(aspect_ratio=16.0 / 9.0, image_width=400, samples_per_pixel=5, max_depth=50, vfov=90)
     cam.render(world)
     return
 
