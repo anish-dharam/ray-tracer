@@ -7,14 +7,13 @@ https://raytracing.github.io/books/RayTracingInOneWeekend.html#outputanimage
 
 Some sample images I've rendered so far:
 
-![metal_cube_two_spheres](metal_cube_two_spheres.ppm?raw=true)
+![metal_cube_two_spheres](converted_files/metal_cube_two_spheres.png)
 
-![metal_cube_two_spheres](https://github.com/anish-dharam/ray-tracer/blob/main/metal_cube_two_spheres.ppm?raw=true)
+![defocus](converted_files/defocus.png)
 
-![defocus](https://github.com/anish-dharam/ray-tracer/blob/main/defocus.ppm?raw=true)
+![birds_eye](converted_files/birds_eye_view.png)
 
-![birds_eye](https://github.com/anish-dharam/ray-tracer/blob/main/birds_eye_view.ppm?raw=true)
+![floating_objects](converted_files/floating_objects.png)
 
-![floating_objects](https://github.com/anish-dharam/ray-tracer/blob/main/floating_objects.ppm?raw=true)
-
-![blurry_spheres](https://github.com/anish-dharam/ray-tracer/blob/main/final_6x6_aa12.ppm?raw=true)
+![blurry_spheres](converted_files/final_6x6_aa12.png)
+(being rerendered)
