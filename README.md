@@ -13,6 +13,6 @@ Some sample images I've rendered so far:
 
 ![birds_eye](converted_files/birds_eye_view.png)
 
-![floating_objects](converted_files/floating_objects.png)
+![cube_world](converted_files/cubes_4x6_aa30.png)
 
-![blurry_spheres](converted_files/final_6x6_aa20.png)
+![sphere world](converted_files/final_6x6_aa300.png)
