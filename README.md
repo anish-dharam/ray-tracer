@@ -15,5 +15,4 @@ Some sample images I've rendered so far:
 
 ![floating_objects](converted_files/floating_objects.png)
 
-![blurry_spheres](converted_files/final_6x6_aa12.png)
-(being rerendered)
+![blurry_spheres](converted_files/final_6x6_aa20.png)
